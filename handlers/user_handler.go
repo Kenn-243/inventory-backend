@@ -43,7 +43,7 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest);
 	}
 
-	err := db.QueryRow(`SELECT user_id, user_name, user_email, user_password WHERE user_email == $1 AND user_password == $2`, user.Email, user.Password).Scan(&user.UserID, &user.Username, &user.Email, &user.Password)
+	err := db.QueryRow("SELECT user_id, user_name, user_email, user_password FROM user_table WHERE user_email = $1 AND user_password = $2", user.Email, user.Password).Scan(&user.UserID, &user.Username, &user.Email, &user.Password)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			http.Error(w, "Invalid credentials", http.StatusUnauthorized);
